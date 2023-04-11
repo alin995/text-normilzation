@@ -10764,7 +10764,7 @@ export const F2H_ASCII_LETTERS = {
     'Z': 'ﮉ'
 }
 
-export const  DIGITS = {
+export const  DIGITS:{[key: string]:string} = {
     '0': '零',
     '1': '一',
     '2': '二',
@@ -10776,8 +10776,8 @@ export const  DIGITS = {
     '8': '八',
     '9': '九',
 }
-const UNITS = ['', '十', '百', '千','万'];
-export const measure_dict = {
+export  const UNITS:string[] = ['', '十', '百', '千','万'];
+export const measure_dict:{[key: string]:string} = {
     'cm2': '平方厘米',
     'cm²': '平方厘米',
     'cm3': '立方厘米',
@@ -10795,10 +10795,9 @@ export const measure_dict = {
     's': '秒'
 }
 
-const CARDINALS = ['', '一', '二', '三', '四', '五', '六', '七', '八', '九'];
+const CARDINALS:string[]= ['', '一', '二', '三', '四', '五', '六', '七', '八', '九'];
 
-
-export const replaceDate = (match) => {
+export const replaceDate = (match:string):string => {
     // 将日期字符串中的数字转换为中文汉字表示
     const re = /(\d{4})年?(\d{1,2})月(\d{1,2})日?/g;
     return match.replace(re, (match, year, month, day) => {
@@ -10816,7 +10815,7 @@ export const replaceDate = (match) => {
         return result;
     });
 }
-export const replaceDate2 = (match) => {
+export const replaceDate2 = (match:string):string => {
     // 将日期字符串中的数字转换为中文汉字表示
     const year = match[1];
     const month = match[3];
@@ -10834,11 +10833,11 @@ export const replaceDate2 = (match) => {
     console.log(result)
     return result;
 }
-const verbalizeDigit02 = (digit) => {
+const verbalizeDigit02 = (digit:string):string => {
     return digit.split('').map((char) => DIGITS[char]).join('');
 };
 
-export const verbalizeOrdinal = (num) => {
+export const verbalizeOrdinal = (num:number):string => {
     // 将基数词转换为中文汉字表示
     let result = '';
     for (let digit of String(num)) {
@@ -10846,30 +10845,27 @@ export const verbalizeOrdinal = (num) => {
     }
     return result;
 }
-
-
-export const replaceTime = (match) => {
+export const replaceTime = (match:string):RegExpMatchArray => {
 // 匹配时间，如 8:30 或 23:45:59
     const RE_TIME = /^([0-1]?[0-9]|2[0-3]):([0-5][0-9])(:([0-5][0-9]))?$/;
 // 匹配时间范围，如 8:30-12:30 或 23:45:59~00:30
     const RE_TIME_RANGE = /^([0-1]?[0-9]|2[0-3]):([0-5][0-9])(:([0-5][0-9]))?(~|-)([0-1]?[0-9]|2[0-3]):([0-5][0-9])(:([0-5][0-9]))?$/;
     const sentence = "时间范围，如8:30-12:30"
     const m = sentence.match(RE_TIME_RANGE)
-    console.log(m,'mmmmmmmmmmMMMM')
     return m
 }
-export const verbalizeCardinal = (valueString) => {
+export const verbalizeCardinal = (valueString:string):string => {
     if (!valueString) {
         return '';
     }
-
     // 000 -> '零' , 0 -> '零'
     valueString = valueString.replace(/^0+/, '');
     if (valueString.length === 0) {
         return DIGITS['0'];
     }
 
-    const resultSymbols = _getValue(valueString);
+    // let resultSymbols:string[] = []
+    const resultSymbols:string[] = _getValue(valueString:string):string;
     // verbalized number starting with '一十*' is abbreviated as `十*`
     if (resultSymbols.length >= 2 && resultSymbols[0] === DIGITS['1'] && resultSymbols[1] === UNITS[1]) {
         resultSymbols.splice(0, 1);
@@ -10877,13 +10873,13 @@ export const verbalizeCardinal = (valueString) => {
     return resultSymbols.join('');
 };
 
-const _getValue = (valueString) => {
+const _getValue:(valueString:string)  =>string[] = (valueString:string):string[] => {
     const resultSymbols = [];
     // let numbers = valueString.replace(/[^0-9]/g,"");
     for (let i = 0; i < valueString.length; i++) {
         const digit = valueString.charAt(i);
         let unit='';
-        if(digit!='-' && digit!=0){
+        if(digit!== '-' && digit !== 0){
             unit = UNITS[valueString.length - i - 1];
         }
         const digitSymbol = DIGITS[digit];
@@ -10906,14 +10902,12 @@ const _getValue = (valueString) => {
 };
 export const RE_DATE2 = /^(\d{4})([- /.])(0[1-9]|1[012])\2(0[1-9]|[12][0-9]|3[01])$/;
 export const RE_DATE = /(\d{4})-(\d{2})-(\d{2})(.*)/;
- export const RE_TIME = /([0-1]?[0-9]|2[0-3]):([0-5][0-9])(:([0-5][0-9]))?/;
-
+export const RE_TIME = /([0-1]?[0-9]|2[0-3]):([0-5][0-9])(:([0-5][0-9]))?/;
 export const RE_NUMBER = /(-?)((\d+)(\.\d+)?)|(\.(\d+))/;
 
 // const RE_TIME_RANGE = /^([01]?[0-9]|2[0-3]):([0-5][0-9])(:([0-5][0-9]))?([~-])([01]?[0-9]|2[0-3]):([0-5][0-9])(:([0-5][0-9]))?$/;
 
-export const num2str = (valueString) => {
-    console.log(valueString,'valueStringvatrin123')
+export const num2str = (valueString:string):string  => {
     const [integer, decimal] = valueString.split('.');
     let result = verbalizeCardinal(integer);
     if (decimal) {
@@ -10927,7 +10921,7 @@ export const num2str = (valueString) => {
     console.log(result,'😂||||||||||||||')
     return result;
 }
-export const verbalizeDigit = (value_string, alt_one = false) => {
+export const verbalizeDigit = (value_string:string, alt_one = false):string => {
     const result_symbols = Array.from(value_string).map(digit => DIGITS[digit]);
     let result = result_symbols.join('');
     if (alt_one) {
@@ -10936,7 +10930,7 @@ export const verbalizeDigit = (value_string, alt_one = false) => {
     return result;
 }
 
-export const  replaceTemperature = (str)  => {
+export const  replaceTemperature = (str:string):string  => {
     const RE_TEMPERATURE = /(-?)(\d+(\.\d+)?)(°C|℃|度|摄氏度)/;
     return str.replace(RE_TEMPERATURE, (match, sign, temperature, _, unit) => {
         sign = sign ? "零下" : "";
@@ -10950,42 +10944,34 @@ export const  replaceTemperature = (str)  => {
 // # 分数表达式
 export const RE_FRAC = /(-?)(\d+)\/(\d+)/;
 
-export const replace_frac = (match) => {
+export const replace_frac = (match:string) => {
     let a = match.substring(0,match.indexOf('/'))
     const sign = match[1] ? "负" : "";
 
     let index = match.lastIndexOf("/")
     let b =match.substring(index+1,match.length);
-    console.log(b)
     // const nominator = num2str(match[2]);
     const nominator = num2str(a);
     const denominator = num2str(b);
-    console.log(nominator)
-    console.log(denominator)
     // const result = `${sign}${denominator}分之${nominator}`;
     const result = denominator+'分之'+nominator;
     return result;
 }
 
-export const replace_mobile = (match) =>{
-    console.log(match)
+
+export const replace_mobile = (match:string):string =>{
     // return phone2str(match[0]);
     return phone2str(match);
 }
-
-export const replace_phone = (match) => {
-    console.log(match)
+export const replace_phone = (match:string) => {
     // return phone2str(match[0], false);
     return phone2str(match, false);
 }
-export const replace_range = (match) => {
-    let first = match.substring(0,match.indexOf('-'))
 
+export const replace_range = (match:string):string => {
+    let first = match.substring(0,match.indexOf('-'))
     let index = match.lastIndexOf("-")
     let second =match.substring(index+1,match.length);
-    console.log(match)
-    console.log(first)
-    console.log(second)
     // let first = match[1];
     // let second = match[8];
     first = first.replace(RE_NUMBER, replace_number);
@@ -10994,7 +10980,7 @@ export const replace_range = (match) => {
     const result = first+'到'+second;
     return result;
 }
-export const replace_number = (match) => {
+export const replace_number = (match:string):string => {
     console.log(match)
     const sign = match[0];
     const number = match[2];
@@ -11011,28 +10997,19 @@ export const replace_number = (match) => {
     return result;
 }
 
-export const  replace_percentage = (match) => {
-    // const sign = match.group(1);
-    // const Percent = match.group(2);
-    // const sign = match(1);
-    // const Percent = match(2);
-    // console.log(sign)
-    // console.log(Percent)
-    // const signStr = sign === "负" ? "负" : "";
+export const  replace_percentage = (match:string):string => {
     const PercentStr = num2str(match);
-    // return `${signStr}$百分之${PercentStr}`;
     return '百分之'+PercentStr;
 }
 
-export const replace_negative_num = (match) => {
-    console.log(match,'123456上山打老虎')
+export const replace_negative_num = (match:string):string => {
     const sign = match[1] ? "负" : "";
     // const number = num2str(match[2]);
     const number = num2str(match);
     const result = `${sign}${number}`;
     return result;
 }
-export const verbalize_digit = (value_string, alt_one = false) => {
+export const verbalize_digit = (value_string:string, alt_one = false) => {
     const result_symbols = Array.from(value_string).map(digit => DIGITS[digit]);
     let result = result_symbols.join('');
     if (alt_one) {
@@ -11041,12 +11018,7 @@ export const verbalize_digit = (value_string, alt_one = false) => {
     return result;
 }
 
-export const replace_positive_quantifier =(match) => {
-    console.log(match)
-    // const number = match[1];
-    // const number = match[1];
-    // let numbers = match.replace(/[^0-9]/g,"");
-    // console.log(numbers)
+export const replace_positive_quantifier =(match:string) => {
     let number = match;
     let match_2 = match[5];
     if (match_2 === "+") {
@@ -11058,10 +11030,7 @@ export const replace_positive_quantifier =(match) => {
     return result;
 }
 
-export const replace_default_num = (match)=> {
-    console.log(match)
-    // const number = match[0];
-    const number = match;
-    return verbalize_digit(number, true);
+export const replace_default_num = (match:number)=> {
+    const numbers = match;
+    return verbalize_digit(String(numbers), true);
 }
-
