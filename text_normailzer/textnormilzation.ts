@@ -1,6 +1,6 @@
 import {t2s_dict, F2H_ASCII_LETTERS, measure_dict, RE_DATE,replace_frac,replace_phone,replace_default_num,replace_positive_quantifier,replace_number,replace_negative_num,replace_range,replace_mobile,replace_percentage, replaceTemperature, replaceDate, replaceDate2, replaceTime} from "./zh_normalization/testexample.js";
 import {replace_time , RE_TIME_RANGE,RE_FRAC,RE_PERCENTAGE,RE_MOBILE_PHONE,RE_NUMBER,RE_DEFAULT_NUM,RE_POSITIVE_QUANTIFIERS,RE_TELEPHONE,RE_INTEGER,RE_DECIMAL_NUM,RE_RANGE,RE_NATIONAL_UNIFORM_NUMBER} from "./zh_normalization/practice.js"
-export  const traditional2Simplified = (text,dict) => {
+export  const traditional2Simplified = (text:string,dict:string[]) => {
     console.log(text.split(), '0-0-0')
 
     return text.split('').map(item => dict[item] || item).join("")
