@@ -3,6 +3,38 @@
   "name": "sample-handel",
   "version": "1.0.0",
   "description": "My Project",
+  "main": "text-normilzation.js",
+  "module": "text-normilzation.mjs",
+  "types": "text-normilzation.d.ts",
+  "sideEffects": false,
+  "files": [
+    "text-normilzation.js",
+    "text-normilzation.mjs",
+    "text-normilzation.d.ts"
+  ],
+  "exports": {
+    ".": {
+      "types": "./text-normilzation.d.ts",
+      "import": "./text-normilzation.mjs",
+      "require": "./text-normilzation.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "scripts": {
+    "test": "make clean && make test"
+  },
+  "devDependencies": {
+    "@types/node": "^18.15.11",
+    "mocha": "^10.0.0",
+    "typescript": "^5.0.0"
+  },
+  "repository": "git+https://github.com/dankogai/js-base64.git",
+  "keywords": [
+    "text-normilzation",
+    "binary"
+  ],
+  "author": "wangwenlin",
+  "license": "MIT",
   "scripts": {
     "start": "node testcase.js"
   },
@@ -16,3 +48,7 @@
   },
   "private": true
 }
+
+
+
+
