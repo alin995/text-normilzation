@@ -29,12 +29,11 @@ export const normalizeSentence = (sentence) => {
     sentence = sentence.replace(RE_NUMBER, replace_number);
     // 数字表达式 纯小数
     sentence = sentence.replace(RE_DECIMAL_NUM, replace_number);
-// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     sentence = replace_time(sentence);
     sentence = sentence.replace(RE_TIME, replace_time) //一半时间
-
     // 正整数 + 量词
     sentence = sentence.replace(RE_POSITIVE_QUANTIFIERS, replace_positive_quantifier); //没解决
+    // sentence = this._post_replace(sentence);
     return sentence;
 }
 

@@ -1,6 +1,4 @@
 import {phone2str} from "./practice.js";
-// import {verbalize_digit} from "./num.js";
-// import {RE_NUMBER, replace_number} from "./num.js";
 
 export const t2s_dict={
     "\u5236": "\u5236",
@@ -10778,7 +10776,7 @@ export const  DIGITS = {
     '8': '八',
     '9': '九',
 }
-const UNITS = ['', '十', '百', '千'];
+const UNITS = ['', '十', '百', '千','万'];
 export const measure_dict = {
     'cm2': '平方厘米',
     'cm²': '平方厘米',
@@ -10799,19 +10797,6 @@ export const measure_dict = {
 
 const CARDINALS = ['', '一', '二', '三', '四', '五', '六', '七', '八', '九'];
 
-// export const verbalizeDigit = (num) => {
-//     // 将数字转换为中文汉字表示
-//     let result = '';
-//     for (let digit of String(num)) {
-//         console.log(digit,'-=-=-=-??????')
-//         // text.split('').map(item => DIGITS[item] || item).join("")
-//         // result += DIGITS[digit];
-//         // result = digit.split().map(item => DIGITS[item] || item).join("")
-//         result += digit.split().map(item => DIGITS[item] || item).join("")
-//     }
-//
-//     return result;
-// }
 
 export const replaceDate = (match) => {
     // 将日期字符串中的数字转换为中文汉字表示
@@ -10863,10 +10848,6 @@ export const verbalizeOrdinal = (num) => {
 }
 
 
-// const replace_time2 = (match, ...args) => {
-//     console.log(args)
-// }
-// sentence.replace(RE_TIME_RANGE, replace_time2)
 export const replaceTime = (match) => {
 // 匹配时间，如 8:30 或 23:45:59
     const RE_TIME = /^([0-1]?[0-9]|2[0-3]):([0-5][0-9])(:([0-5][0-9]))?$/;
@@ -10876,58 +10857,6 @@ export const replaceTime = (match) => {
     const m = sentence.match(RE_TIME_RANGE)
     console.log(m,'mmmmmmmmmmMMMM')
     return m
-    // return match.replace(RE_TIME, (match, year, month, day) => {
-    //     let result = '';
-    //     if (year) {
-    //         result += `${verbalizeDigit(year)}年`;
-    //     }
-    //     if (month) {
-    //         result += `${verbalizeDigit(month)}月`;
-    //         // verbalizeCardinal
-    //     }
-    //     if (day) {
-    //         result += `${verbalizeDigit(day)}日`;
-    //     }
-    //     return result;
-    // });
-    // ++++++++++++
-    // const isRange = match[6] !== '-';
-    // const hour = parseInt(match[1]);
-    // console.log(hour,'hour')
-    // const minute = parseInt(match[2]);
-    // const second = match[4] ? parseInt(match[4]) : 0;
-    // const hour2 = isRange ? parseInt(match[6]) : null;
-    // const minute2 = isRange ? parseInt(match[7]) : null;
-    // const second2 = isRange && match[9] ? parseInt(match[9]) : null;
-    //
-    // let result = `${num2str(hour)}点`;
-    // if (minute.toString().replace(/^0+/, '') !== '') {
-    //     if (minute === 30) {
-    //         result += '半';
-    //     } else {
-    //         result += `${_time_num2str(minute)}分`;
-    //     }
-    // }
-    // if (second.toString().replace(/^0+/, '') !== '') {
-    //     result += `${_time_num2str(second)}秒`;
-    // }
-    //
-    // if (isRange) {
-    //     result += '至';
-    //     result += `${num2str(hour2)}点`;
-    //     if (minute2.toString().replace(/^0+/, '') !== '') {
-    //         if (minute2 === 30) {
-    //             result += '半';
-    //         } else {
-    //             result += `${_time_num2str(minute2)}分`;
-    //         }
-    //     }
-    //     if (second2.toString().replace(/^0+/, '') !== '') {
-    //         result += `${_time_num2str(second2)}秒`;
-    //     }
-    // }
-    //
-    // return result;
 }
 export const verbalizeCardinal = (valueString) => {
     if (!valueString) {
@@ -10950,10 +10879,11 @@ export const verbalizeCardinal = (valueString) => {
 
 const _getValue = (valueString) => {
     const resultSymbols = [];
+    // let numbers = valueString.replace(/[^0-9]/g,"");
     for (let i = 0; i < valueString.length; i++) {
         const digit = valueString.charAt(i);
         let unit='';
-        if(digit!='-'){
+        if(digit!='-' && digit!=0){
             unit = UNITS[valueString.length - i - 1];
         }
         const digitSymbol = DIGITS[digit];
@@ -10967,10 +10897,13 @@ const _getValue = (valueString) => {
             resultSymbols.push(unit);
         }
     }
-    console.log(resultSymbols)
+    if(resultSymbols[resultSymbols.length-1] ==='零'){
+        resultSymbols.pop()
+    }
+    // let str = valueString.substring(numbers.length,valueString.length)
+    // resultSymbols.push(str);
     return resultSymbols;
 };
-
 export const RE_DATE2 = /^(\d{4})([- /.])(0[1-9]|1[012])\2(0[1-9]|[12][0-9]|3[01])$/;
 export const RE_DATE = /(\d{4})-(\d{2})-(\d{2})(.*)/;
  export const RE_TIME = /([0-1]?[0-9]|2[0-3]):([0-5][0-9])(:([0-5][0-9]))?/;
@@ -11081,7 +11014,6 @@ export const replace_number = (match) => {
 export const  replace_percentage = (match) => {
     // const sign = match.group(1);
     // const Percent = match.group(2);
-    console.log(match)
     // const sign = match(1);
     // const Percent = match(2);
     // console.log(sign)
@@ -11093,15 +11025,13 @@ export const  replace_percentage = (match) => {
 }
 
 export const replace_negative_num = (match) => {
-    console.log('123456上山打老虎')
-    console.log(match)
+    console.log(match,'123456上山打老虎')
     const sign = match[1] ? "负" : "";
     // const number = num2str(match[2]);
     const number = num2str(match);
     const result = `${sign}${number}`;
     return result;
 }
-
 export const verbalize_digit = (value_string, alt_one = false) => {
     const result_symbols = Array.from(value_string).map(digit => DIGITS[digit]);
     let result = result_symbols.join('');
@@ -11113,13 +11043,18 @@ export const verbalize_digit = (value_string, alt_one = false) => {
 
 export const replace_positive_quantifier =(match) => {
     console.log(match)
-    const number = match[1];
-    let match_2 = match[2];
+    // const number = match[1];
+    // const number = match[1];
+    // let numbers = match.replace(/[^0-9]/g,"");
+    // console.log(numbers)
+    let number = match;
+    let match_2 = match[5];
     if (match_2 === "+") {
         match_2 = "多";
     }
     const quantifiers = match[3];
-    const result = `${num2str(number)}${match_2 || ""}${quantifiers}`;
+    // const result = `${num2str(number)}${match_2 || ""}${quantifiers}`;
+    const result = num2str(number);
     return result;
 }
 
@@ -11129,48 +11064,4 @@ export const replace_default_num = (match)=> {
     const number = match;
     return verbalize_digit(number, true);
 }
-// =========
-// export  const replaceFrac = (match) => {
-//     console.log(match,'好困')
-//     const sign = match[1] ? "负" : "";
-//     const nominator = num2str(match[2]);
-//     const denominator = num2str(match[3]);
-//     console.log(match[1],'这是啥？？？？')
-//     console.log(nominator,'nominator')
-//     console.log(denominator,'denominator')
-//     const result = `${sign}${denominator}分之${nominator}`;
-//     return result;
-// }
-// export const  replacePercentage = (str)  => {
-//     console.log(str,'♥️')
-//     const RE_PERCENTAGE = /(-?)(\d+(\.\d+)?)%/;
-//     return str.replace(RE_PERCENTAGE, (match)  => {
-//         console.log(replaceFrac(match),'mathmatchmatch')
-//         return replaceFrac(match);
-//     });
-// }
 
-
-
-// export const  num2str = (value_string) => {
-//     const integer_decimal = value_string.split('.');
-//     let integer = '', decimal = '';
-//     if (integer_decimal.length === 1) {
-//         integer = integer_decimal[0];
-//     } else if (integer_decimal.length === 2) {
-//         [integer, decimal] = integer_decimal;
-//     } else {
-//         throw new Error(`The value string: '${value_string}' has more than one point in it.`);
-//     }
-//
-//     let result = verbalize_cardinal(integer);
-//
-//     decimal = decimal.replace(/0+$/, '');
-//     if (decimal) {
-//         // '.22' is verbalized as '零点二二'
-//         // '3.20' is verbalized as '三点二'
-//         result = result || "零";
-//         result += '点' + verbalize_digit(decimal);
-//     }
-//     return result;
-// }
