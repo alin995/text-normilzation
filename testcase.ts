@@ -150,6 +150,10 @@ const sampleTexts = (
             }]
         })
 
+interface SampleText {
+    plainText: string;
+    normalizedText: string;
+}
 sampleTexts.forEach(({plainText, normalizedText}) => {
     const output = normalizeSentence(plainText);
     console.log("outout",output)
